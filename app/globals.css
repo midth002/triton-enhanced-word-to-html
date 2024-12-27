@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -18,4 +19,86 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Container for the editor and preview */
+.editor-preview-container {
+  display: flex; /* Enables side-by-side layout */
+  gap: 20px; /* Adds space between the two boxes */
+}
+
+/* Editor and Preview Box Styles */
+.editor-box,
+.preview-box {
+  flex: 1; /* Ensures both boxes take up equal width */
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: 300px; /* Adjust the height as needed */
+  overflow: auto; /* Adds scrollbars if content overflows */
+  background-color:var(--background); /* Optional: adds a light background */
+}
+
+.app-container {
+  font-family: Arial, sans-serif;
+  margin: auto;
+  padding: 20px;
+}
+
+.toolbar {
+  margin-bottom: 10px;
+}
+
+.toolbar button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: var(--background);
+  cursor: pointer;
+}
+
+.toolbar button:hover {
+  background-color: var(--background);
+}
+
+.wysiwyg-editor {
+  border: 1px solid #ccc;
+  padding: 10px;
+  outline: none;
+  background-color:#fff;
+}
+
+.html-preview {
+  color:var(--background);
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color:#fff;
+  width: 850px;
+  height:auto;
+}
+
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+  background:#fff;
+  min-height:200px;
+}
+
+
+code[class*="language-"], pre[class*="language-"] {text-shadow:none!important}
+pre.language-html code {
+  white-space: pre-wrap !important; /* Force wrapping for code blocks */
+  word-break: break-word !important; /* Break long words if necessary */
+
+}
+
+
+.wysiwyg-editor{
+  width: 850px;
+  min-height:500px;
+}
+
+.app-header h1{
+  text-align: center;
+}
+
+.app-footer p{
+  text-align: center;
 }

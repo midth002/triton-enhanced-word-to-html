@@ -9,10 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "dompurify": "^3.2.3",
+    "js-beautify": "^1.15.1",
     "marked": "^15.0.4",
     "next": "15.1.2",
+    "prismjs": "^1.29.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.2"
   },
   "devDependencies": {
     "postcss": "^8",
