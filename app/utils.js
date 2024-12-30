@@ -63,7 +63,6 @@ export const cleanHTML = (html) => {
 Array.from(tempDiv.querySelectorAll("p")).forEach((p) => {
   const match = p.textContent.trim().match(/\[(.+?)\]/); // Check for square brackets
   const hasLink = p.querySelector("a"); // Check if there is an <a> tag inside
-  console.log(match);
   if (match && hasLink) {
     // Includes [] and an a tag inside
     const text = match[1];
