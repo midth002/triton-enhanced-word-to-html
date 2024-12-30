@@ -122,26 +122,26 @@ export const prettifyHTML = (html) => {
       } catch (error) {
         console.error("Error inserting comment:", error);
       }
-      
+
     });
   };
   
-  const addLabelComment = (node) => {
-    const labelElements = node.querySelectorAll("label");
-    labelElements.forEach((label) => {
-      const structuredComment = ` ${label.textContent.trim()} `;
-      const comment = document.createComment(structuredComment);
-      try {
-        if (node.contains(label)) {
-          node.insertBefore(comment, label);
-        } else {
-          console.warn("Label element is not a direct child of the parent node.");
-        }
-      } catch (error) {
-        console.error("Error inserting Comment to Text:", error);
-      }
-    });
-  };
+  // const addLabelComment = (node) => {
+  //   const labelElements = node.querySelectorAll("label");
+  //   labelElements.forEach((label) => {
+  //     const structuredComment = ` ${label.textContent.trim()} `;
+  //     const comment = document.createComment(structuredComment);
+  //     try {
+  //       if (node.contains(label)) {
+  //         node.insertBefore(comment, label);
+  //       } else {
+  //         console.warn("Label element is not a direct child of the parent node.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error inserting Comment to Text:", error);
+  //     }
+  //   });
+  // };
   
 
   // Apply accordion wrapping before prettification
@@ -149,7 +149,7 @@ export const prettifyHTML = (html) => {
   groupAccordions(tempDiv); // Group data-accordion elements into data-accordion-group
   removeEmptyTags(tempDiv);
   addTitleComment(tempDiv);
-  addLabelComment(tempDiv);
+  // addLabelComment(tempDiv);
 
   const prettify = (node, level = 0) => {
     const indent = "  ".repeat(level);
