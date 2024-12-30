@@ -107,7 +107,7 @@ Array.from(tempDiv.querySelectorAll("p")).forEach((p) => {
 
   // Use DOMPurify to sanitize the cleaned HTML
   return DOMPurify.sanitize(tempDiv.innerHTML, {
-    ALLOWED_TAGS: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "ul", "ol", "li", "a", "b", "i", "u", "strong", "em", "hr", "title", "label"],
+    ALLOWED_TAGS: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "ul", "ol", "li", "a", "i",  "strong", "em", "hr", "title", "label"],
     ALLOWED_ATTR: ["href", "title", "class"],
   });
 };
