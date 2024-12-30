@@ -129,7 +129,7 @@ export const prettifyHTML = (html) => {
       try {
         node.insertBefore(comment, label);
       } catch (error) {
-        console.error("Error inserting comment:", error);
+        console.error("Error inserting Comment to Text:", error);
       }
     });
   };
