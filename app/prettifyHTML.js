@@ -14,18 +14,18 @@ export const prettifyHTML = (html) => {
           node.appendChild(currentAccordion);
           currentAccordion = null;
         }
-
+    
         // Start a new accordion
         currentAccordion = document.createElement("div");
         currentAccordion.setAttribute("data-accordion", "");
-
+    
         const controlDiv = document.createElement("div");
         controlDiv.setAttribute("data-control", "");
         controlDiv.innerHTML = `<img data-src="/portals/0/angles-right-white-solid.svg" alt="Angles Right Icon" width="17" height="18" class="lazyload"/> ${el.textContent.trim()}`;
-
+    
         currentAccordion.appendChild(controlDiv);
       } else if (el.tagName === "P") {
-        // Add <p> tags to the current accordion's data-content
+        // Add <p> tags to the current accordion's data-content or leave them alone if no accordion exists
         if (currentAccordion) {
           let contentDiv = currentAccordion.querySelector('[data-content]');
           if (!contentDiv) {
@@ -34,6 +34,9 @@ export const prettifyHTML = (html) => {
             currentAccordion.appendChild(contentDiv);
           }
           contentDiv.appendChild(el);
+        } else {
+          // If no accordion exists, append the <p> directly to the node
+          node.appendChild(el);
         }
       } else if (el.tagName.startsWith("H") && el.tagName !== "H4") {
         // Close the current accordion and append a non-H4 heading
@@ -51,6 +54,7 @@ export const prettifyHTML = (html) => {
         node.appendChild(el);
       }
     });
+    
 
     // Append the last accordion if it exists
     if (currentAccordion) {
@@ -65,7 +69,7 @@ export const prettifyHTML = (html) => {
 
     children.forEach((el) => {
       if (el.getAttribute && el.getAttribute("data-accordion") !== null) {
-        // console.log(el);
+    
         // Start a new group container if it doesn't exist
         if (!groupContainer) {
           groupContainer = document.createElement("div");
@@ -144,12 +148,11 @@ export const prettifyHTML = (html) => {
     });
   };
   
-  
 
-  // Apply accordion wrapping before prettification
-  wrapAccordions(tempDiv);
-  groupAccordions(tempDiv); // Group data-accordion elements into data-accordion-group
+  
   removeEmptyTags(tempDiv);
+  wrapAccordions(tempDiv);
+  groupAccordions(tempDiv);
   addTitleComment(tempDiv);
   addLabelComment(tempDiv);
 

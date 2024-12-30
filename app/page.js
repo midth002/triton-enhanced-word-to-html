@@ -21,8 +21,8 @@ export default function Home() {
   const handleInput = (e) => {
     const rawHtml = e.currentTarget.innerHTML; // Get raw HTML from the editor
     const cleanedHtml = cleanHTML(rawHtml); // Clean the HTML using cleanHTML
-    const prettyHtml = prettifyHTML(cleanedHtml); // Prettify the HTML
-    setContent(prettyHtml); // Update the state with cleaned HTML
+   const prettyHtml = prettifyHTML(cleanedHtml); // Prettify the HTML
+   setContent(prettyHtml); // Update the state with cleaned HTML
   };
 
   // Handle Copy to Clipboard
