@@ -122,6 +122,7 @@ export const prettifyHTML = (html) => {
       } catch (error) {
         console.error("Error inserting comment:", error);
       }
+      
     });
   };
   
