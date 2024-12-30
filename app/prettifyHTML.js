@@ -124,7 +124,7 @@ export const prettifyHTML = (html) => {
   const addLabelComment = (node) => {
     const labelElements = node.querySelectorAll("label");
     labelElements.forEach((label) => {
-      const structuredComment = `--- ${label.textContent.trim()} ---`;
+      const structuredComment = ` ${label.textContent.trim()} `;
       const comment = document.createComment(structuredComment);
       try {
         node.insertBefore(comment, label);
