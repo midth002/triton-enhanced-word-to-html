@@ -1,22 +1,15 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from "react";
-import Prism from "prismjs";
-import "prismjs/themes/prism.css"; // Import Prism.js CSS theme
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"; // Import a Prism-like theme
 import { toast, ToastContainer } from "react-toastify";
 import { cleanHTML } from "./utils"; // Adjust the path to your cleanHTML utility
-import { CodeBlock } from "./codeBlock";
 import { prettifyHTML } from "./prettifyHTML";
 
 export default function Home() {
   const [content, setContent] = useState(""); // State for cleaned HTML content
   const editorRef = useRef(null); // Reference for the contentEditable editor
-  const previewRef = useRef(null); // Reference for the HTML preview
-
-  useEffect(() => {
-    Prism.highlightAll();
-  }, []);
-
 
   // Function to handle text formatting
   const formatText = (command) => {
@@ -28,7 +21,7 @@ export default function Home() {
   const handleInput = (e) => {
     const rawHtml = e.currentTarget.innerHTML; // Get raw HTML from the editor
     const cleanedHtml = cleanHTML(rawHtml); // Clean the HTML using cleanHTML
-    const prettyHtml = prettifyHTML(cleanedHtml); // prettify the HTML 
+    const prettyHtml = prettifyHTML(cleanedHtml); // Prettify the HTML
     setContent(prettyHtml); // Update the state with cleaned HTML
   };
 
@@ -50,21 +43,15 @@ export default function Home() {
         e.preventDefault();
         const selection = window.getSelection();
         const range = document.createRange();
-        range.selectNodeContents(previewRef.current);
+        range.selectNodeContents(editorRef.current);
         selection.removeAllRanges();
         selection.addRange(range);
       }
-
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
-
-  // Re-highlight syntax whenever content updates
-  useEffect(() => {
-    Prism.highlightAll();
-  }, [content]);
 
   return (
     <div className="app-container mx-auto box-border">
@@ -98,18 +85,18 @@ export default function Home() {
           <button onClick={handleCopy} style={{ marginBottom: "10px" }}>
             Copy HTML
           </button>
-          <pre
-            className="language-html"
-            ref={previewRef}
-            style={{
+          <SyntaxHighlighter
+            language="html"
+            style={vscDarkPlus}
+            customStyle={{
               border: "1px solid #ccc",
               padding: "10px",
               whiteSpace: "pre-wrap", // Ensures the code wraps properly
               wordWrap: "break-word", // Ensures long words wrap
             }}
           >
-            <code className="language-html">{content}</code>
-          </pre>
+            {content}
+          </SyntaxHighlighter>
         </div>
       </div>
 
