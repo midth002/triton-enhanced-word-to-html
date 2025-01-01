@@ -11,6 +11,8 @@ export default function Home() {
   const [content, setContent] = useState(""); // State for cleaned HTML content
   const editorRef = useRef(null); // Reference for the contentEditable editor
 
+  const placeholderText = "Enter Text Here...";
+
   // Function to handle text formatting
   const formatText = (command) => {
     document.execCommand(command, false, null); // Executes formatting commands
@@ -64,7 +66,8 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <div className="editor-preview-container columns-2">
+      <div className="editor-preview-container">
+        <div className="font-bold text-large uppercase mb-1" style={{background:"#fff", border:"none",padding:"5px", color:"#000"}}>
         {/* Editor */}
         <div
           ref={editorRef}
@@ -73,16 +76,16 @@ export default function Home() {
           suppressContentEditableWarning
           onInput={handleInput}
           style={{
-            border: "1px solid #ccc",
             padding: "10px",
-            marginBottom: "20px",
+            border:"none"
           }}
+          placeholder={placeholderText}
         ></div>
-
+</div>
         {/* HTML Code Preview with Syntax Highlighting */}
         <div className="html-preview">
-          <h2>HTML Code Preview</h2>
-          <button onClick={handleCopy} style={{ marginBottom: "10px" }}>
+          <h2 className="font-bold text-large uppercase mb-1">HTML Code Preview</h2>
+          <button onClick={handleCopy} style={{ marginBottom: "10px" }} class="btn btn-primary">
             Copy HTML
           </button>
           <SyntaxHighlighter
@@ -102,7 +105,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="app-footer">
-        <p>&copy; 2024 Triton WordHTML</p>
+        <p>&copy; {(new Date().getFullYear())} Triton WordHTML</p>
       </footer>
     </div>
   );

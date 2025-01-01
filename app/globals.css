@@ -17,20 +17,27 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  /* background: var(--background); */
+  background:rgb(15 23 42);
   font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Container for the editor and preview */
 .editor-preview-container {
-  display: flex; /* Enables side-by-side layout */
-  gap: 20px; /* Adds space between the two boxes */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding:1.5rem;
+  border-radius:15px;
+  background:#1e293b;
+  box-shadow: inset 0 0 0 1px #ffffff1a;
+  border:0 solid #e5e7eb
 }
 
 /* Editor and Preview Box Styles */
 .editor-box,
 .preview-box {
-  flex: 1; /* Ensures both boxes take up equal width */
+ 
   border: 1px solid #ccc;
   padding: 10px;
   min-height: 300px; /* Adjust the height as needed */
@@ -67,13 +74,16 @@ body {
   background-color:#fff;
 }
 
+.wysiwyg-editor::placeholder {color:rgb(0,0,0,.7)}
+
 .html-preview {
   color:var(--background);
   border: 1px solid #ccc;
   padding: 10px;
   background-color:#fff;
-  width: 850px;
+  width:100%;
   height:auto;
+  min-height:520px;
 }
 
 :not(pre) > code[class*="language-"], pre[class*="language-"] {
@@ -91,14 +101,50 @@ pre.language-html code {
 
 
 .wysiwyg-editor{
-  width: 850px;
-  min-height:500px;
+width:100%;
+height:auto;
+min-height:520px;
+color:#000;
 }
 
 .app-header h1{
   text-align: center;
+  font-size:2.25rem;
+  font-weight:bold;
+  text-transform:uppercase;
+ 
 }
+
+
+.app-footer {position:fixed;bottom:0;width:100%;}
 
 .app-footer p{
   text-align: center;
 }
+
+.btn {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  padding:12px 15px;
+  font-size: 1rem;
+  line-height:1.2;
+  font-weight:400;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color:#fff;
+  transition:all .3s ease-in-out;
+  border-radius:5px;
+}
+
+.btn-primary {
+  background:#28a745;
+}
+
+.btn-primary:hover {
+  background:#218838;
+}
+
+pre {min-height:400px;}
