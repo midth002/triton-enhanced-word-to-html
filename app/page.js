@@ -6,6 +6,7 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"; //
 import { toast, ToastContainer } from "react-toastify";
 import { cleanHTML } from "./utils"; // Adjust the path to your cleanHTML utility
 import { prettifyHTML } from "./prettifyHTML";
+import companyLogo from '../public/triton.png';
 
 export default function Home() {
   const [content, setContent] = useState(""); // State for cleaned HTML content
@@ -67,7 +68,7 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="editor-preview-container">
-        <div className="font-bold text-large uppercase mb-1" style={{background:"#fff", border:"none",padding:"5px", color:"#000"}}>
+        <div>
         {/* Editor */}
         <div
           ref={editorRef}
@@ -105,7 +106,9 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="app-footer">
-        <p>&copy; {(new Date().getFullYear())} Triton WordHTML</p>
+        <div className="copyright">
+        <p>&copy; {(new Date().getFullYear())} <img src="/triton.png" /> WordHTML</p>
+        </div>
       </footer>
     </div>
   );

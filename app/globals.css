@@ -116,11 +116,9 @@ color:#000;
 }
 
 
-.app-footer {position:fixed;bottom:0;width:100%;}
+.app-footer {position:fixed;bottom:0;width:100%;display:flex;justify-content:center;}
+.app-footer .copyright p {display:flex;gap:7px;padding:5px;align-items:center;text-transform: uppercase;font-size:1.25rem}
 
-.app-footer p{
-  text-align: center;
-}
 
 .btn {
   -webkit-appearance: none;
