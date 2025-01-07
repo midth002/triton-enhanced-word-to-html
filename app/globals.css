@@ -94,12 +94,16 @@ body {
 }
 
 
-code[class*="language-"], pre[class*="language-"] {text-shadow:none!important}
+code[class*="language-"], pre[class*="language-"] {text-shadow:none!important;}
 pre.language-html code {
   white-space: pre-wrap !important; /* Force wrapping for code blocks */
   word-break: break-word !important; /* Break long words if necessary */
 
 }
+.compress code[class*="language-"] {
+  white-space:initial!important
+}
+
 
 
 .wysiwyg-editor{
@@ -121,7 +125,7 @@ color:#000;
 .app-footer {position:relative;bottom:0;width:100%;display:flex;justify-content:center;}
 .app-footer .copyright p {display:flex;gap:7px;padding:5px;align-items:center;text-transform: uppercase;font-size:1.25rem}
 
-
+.button-wrapper {display:flex;gap:15px;}
 .btn {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -147,4 +151,18 @@ color:#000;
   background:#218838;
 }
 
-pre {min-height:400px;}
+.btn-secondary {
+  background:#9e2065
+}
+
+.btn-secondary:hover {
+  background:#871b56;
+}
+
+pre {min-height:400px;overflow-wrap:break-word;white-space:pre-wrap}
+
+pre.language-html code {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-x:hidden
+}

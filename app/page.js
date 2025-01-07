@@ -6,13 +6,27 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"; //
 import { toast, ToastContainer } from "react-toastify";
 import { cleanHTML } from "./utils"; // Adjust the path to your cleanHTML utility
 import { prettifyHTML } from "./prettifyHTML";
+import { indentPrettifyHTML } from "./indentPrettifyHTML";
 import companyLogo from '../public/triton.png';
 
 export default function Home() {
   const [content, setContent] = useState(""); // State for cleaned HTML content
   const editorRef = useRef(null); // Reference for the contentEditable editor
 
+  const [isIndented, setIndent] = useState(false);
   const placeholderText = "Enter Text Here...";
+
+
+
+  const handleToggle = () => {
+    setIndent(!isIndented); 
+    // Update the Content Based on The Current State
+    const rawHtml = editorRef.current.innerHTML;
+    const cleanedHtml = cleanHTML(rawHtml);
+    const prettyHtml = isIndented ? prettifyHTML(cleanedHtml) : indentPrettifyHTML(cleanedHtml) ;
+    setContent(prettyHtml);
+};
+
 
   // Function to handle text formatting
   const formatText = (command) => {
@@ -24,7 +38,14 @@ export default function Home() {
   const handleInput = (e) => {
     const rawHtml = e.currentTarget.innerHTML; // Get raw HTML from the editor
     const cleanedHtml = cleanHTML(rawHtml); // Clean the HTML using cleanHTML
-   const prettyHtml = prettifyHTML(cleanedHtml); // Prettify the HTML
+    let prettyHtml;
+    if (isIndented) {
+     prettyHtml = indentPrettifyHTML(cleanedHtml);
+    }
+    else {
+      prettyHtml = prettifyHTML(cleanedHtml);
+    }
+    // Prettify the HTML
    setContent(prettyHtml); // Update the state with cleaned HTML
   };
 
@@ -38,6 +59,8 @@ export default function Home() {
       toast.error("Clipboard API not supported in your browser.", { autoClose: 2000 });
     }
   };
+
+
 
   // Enable Ctrl+A to select the HTML preview
   useEffect(() => {
@@ -86,17 +109,24 @@ export default function Home() {
         {/* HTML Code Preview with Syntax Highlighting */}
         <div className="html-preview">
           <h2 className="font-bold text-large uppercase mb-1">HTML Code Preview</h2>
+          <div className="button-wrapper">
           <button onClick={handleCopy} style={{ marginBottom: "10px" }} class="btn btn-primary">
             Copy HTML
           </button>
+          <button onClick={handleToggle} style={{ marginBottom: "10px" }} class="btn btn-secondary">
+           {isIndented ? "Compress HTML" : "Indent HTML"}
+          </button>
+          </div>
           <SyntaxHighlighter
             language="html"
             style={vscDarkPlus}
+            className={`${!isIndented ? 'compress': ''}`}
             customStyle={{
               border: "1px solid #ccc",
               padding: "10px",
-              whiteSpace: "pre-wrap", // Ensures the code wraps properly
+              whiteSpace: "initial", // Ensures the code wraps properly
               wordWrap: "break-word", // Ensures long words wrap
+              
             }}
           >
             {content}
