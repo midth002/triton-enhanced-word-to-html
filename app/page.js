@@ -7,11 +7,11 @@ import { toast, ToastContainer } from "react-toastify";
 import { cleanHTML } from "./utils"; // Adjust the path to your cleanHTML utility
 import { prettifyHTML } from "./prettifyHTML";
 import { indentPrettifyHTML } from "./indentPrettifyHTML";
-import companyLogo from '../public/triton.png';
 
 export default function Home() {
   const [content, setContent] = useState(""); // State for cleaned HTML content
   const editorRef = useRef(null); // Reference for the contentEditable editor
+  const previewRef = useRef(null); // Reference for the preview container
 
   const [isIndented, setIndent] = useState(false);
   const placeholderText = "Enter Text Here...";
@@ -25,6 +25,11 @@ export default function Home() {
     const cleanedHtml = cleanHTML(rawHtml);
     const prettyHtml = isIndented ? prettifyHTML(cleanedHtml) : indentPrettifyHTML(cleanedHtml) ;
     setContent(prettyHtml);
+
+    // Scroll to the top of the preview
+    if (previewRef.current) {
+      previewRef.current.scrollTop = 0;
+    }
 };
 
 
@@ -47,6 +52,11 @@ export default function Home() {
     }
     // Prettify the HTML
    setContent(prettyHtml); // Update the state with cleaned HTML
+
+    // Scroll to the top of the preview
+    if (previewRef.current) {
+      previewRef.current.scrollTop = 0;
+    }
   };
 
   // Handle Copy to Clipboard
@@ -90,8 +100,8 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <div className="editor-preview-container">
-        <div>
+      <div className="editor-preview-container" ref={previewRef}>
+        <div >
         {/* Editor */}
         <div
           ref={editorRef}
@@ -107,7 +117,7 @@ export default function Home() {
         ></div>
 </div>
         {/* HTML Code Preview with Syntax Highlighting */}
-        <div className="html-preview">
+        <div className="html-preview" >
           <h2 className="font-bold text-large uppercase mb-1">HTML Code Preview</h2>
           <div className="button-wrapper">
           <button onClick={handleCopy} style={{ marginBottom: "10px" }} class="btn btn-primary">

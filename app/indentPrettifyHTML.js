@@ -157,7 +157,7 @@ export const indentPrettifyHTML = (html) => {
   addLabelComment(tempDiv);
 
   const prettify = (node, level = 0) => {
-    const indent = "  ".repeat(level);
+    const indent = " ".repeat(level);
     let result = "";
 
     if (node.nodeType === Node.ELEMENT_NODE) {

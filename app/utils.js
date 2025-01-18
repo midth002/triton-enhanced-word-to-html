@@ -52,6 +52,7 @@ export const cleanHTML = (html) => {
     }
   });
 
+    
   // Remove <p> tags inside <li> elements
   Array.from(tempDiv.querySelectorAll("li")).forEach((li) => {
     Array.from(li.querySelectorAll("p")).forEach((p) => {
