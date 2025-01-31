@@ -148,6 +148,22 @@ export const indentPrettifyHTML = (html) => {
     });
   };
   
+    // Ensure spaces around <a> tags and remove space before punctuation
+    const adjustATagSpacing = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        // Add space around <a> and remove space before punctuation
+        node.textContent = node.textContent
+          .replace(/(?!^)(\S)<a/g, " $1 <a") // Add space before <a>
+          .replace(/<\/a>(\S)/g, "</a> $1") // Add space after </a>
+          .replace(/<\/a>\s+([.,;])/g, "</a>$1"); // Remove space before punctuation
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Recursively process child nodes
+        for (const child of node.childNodes) {
+          adjustATagSpacing(child);
+        }
+      }
+    };
+  
 
   
   removeEmptyTags(tempDiv);
@@ -155,37 +171,49 @@ export const indentPrettifyHTML = (html) => {
   groupAccordions(tempDiv);
   addTitleComment(tempDiv);
   addLabelComment(tempDiv);
+  adjustATagSpacing(tempDiv);
 
   const prettify = (node, level = 0) => {
-    const indent = " ".repeat(level);
-    let result = "";
+    // FOR INDENTING
+  const indent = " ".repeat(level);
+  let result = "";
+  
+  if (node.nodeType === Node.ELEMENT_NODE) {
+  validateTabindex(node);
+  result += `${indent}<${node.tagName.toLowerCase()}`;
+  for (const attr of node.attributes) {
+  result += ` ${attr.name}="${attr.value}"`;
+  }
+  result += ">";
+  } else if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
 
-    if (node.nodeType === Node.ELEMENT_NODE) {
-      validateTabindex(node); // Validate tabindex here as well
-      result += `${indent}<${node.tagName.toLowerCase()}`;
-      for (const attr of node.attributes) {
-        result += ` ${attr.name}="${attr.value}"`;
-      }
-      result += ">";
-    } else if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
-      result += `${indent}${node.textContent.trim()}`;
-    } else if (node.nodeType === Node.COMMENT_NODE) {
-      result += `${indent}<!--${node.data.trim()}-->`;
-    }
-
-    if (node.childNodes.length) {
-      for (const child of node.childNodes) {
-        result += `\n${prettify(child, level + 1)}`;
-      }
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        result += `\n${indent}</${node.tagName.toLowerCase()}>`;
-      }
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      result += `</${node.tagName.toLowerCase()}>`;
-    }
-
-    return result;
+    let text = node.textContent;
+    text = text.replace(/<\/a>\s+([.,;])/g, "</a>$1"); // Remove space before punctuation after </a>
+    
+  result += text;
+  } else if (node.nodeType === Node.COMMENT_NODE) {
+  result += `<!--${node.data.trim()}-->`;
+  }
+  
+  if (node.childNodes.length) {
+  for (const child of node.childNodes) {
+    // FOR INDENTING
+  result += `${prettify(child, level + 1)}`;
+  // result += prettify(child);
+  }
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    // result += `\n</${node.tagName.toLowerCase()}>`;
+  result += `</${node.tagName.toLowerCase()}>`;
+  }
+  } else if (node.nodeType === Node.ELEMENT_NODE) {
+  result += `</${node.tagName.toLowerCase()}>`;
+  }
+  
+  return result
+  .replace(/<\/a>\s+([.,;])/g, "</a>$1") // Remove spaces before punctuation
+  .replace(/\s+<\/(\w+)>/g, "</$1>")
+  .replace(/>\s+</g, "><")
   };
-
+  
   return prettify(tempDiv).trim();
-};
+  };

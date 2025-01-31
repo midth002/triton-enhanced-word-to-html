@@ -6,11 +6,27 @@ export const cleanHTML = (html) => {
   tempDiv.innerHTML = html;
 
   // Remove unnecessary span tags
+  // Array.from(tempDiv.querySelectorAll("span")).forEach((span) => {
+  //   if (!span.attributes.length) {
+  //     span.replaceWith(span.innerHTML);
+  //   }
+  // });
+
   Array.from(tempDiv.querySelectorAll("span")).forEach((span) => {
-    if (!span.attributes.length) {
+      const inlineStyle = span.getAttribute("style");
+
+
+    if (inlineStyle && inlineStyle.includes("font-weight: 700")) {
+      // Convert the span to a <strong> tag
+      const strongTag = document.createElement("strong");
+      strongTag.innerHTML = span.innerHTML;
+      span.replaceWith(strongTag);
+    } else if (!span.attributes.length) {
+      // Remove span if it has no attributes (was likely used for styling)
       span.replaceWith(span.innerHTML);
     }
   });
+  
 
   // Remove aria-level attributes
   Array.from(tempDiv.querySelectorAll("[aria-level]")).forEach((node) => {
@@ -52,7 +68,6 @@ export const cleanHTML = (html) => {
     }
   });
 
-    
   // Remove <p> tags inside <li> elements
   Array.from(tempDiv.querySelectorAll("li")).forEach((li) => {
     Array.from(li.querySelectorAll("p")).forEach((p) => {
@@ -62,13 +77,13 @@ export const cleanHTML = (html) => {
 
   // Convert <p> tags with square brackets to <a> tags
 Array.from(tempDiv.querySelectorAll("p")).forEach((p) => {
-  const match = p.textContent.trim().match(/\[(.+?)\]/); // Check for square brackets
+  const match = p.innerHTML.trim().match(/\[(.+?)\]/); // Check for square brackets
   const hasLink = p.querySelector("a"); // Check if there is an <a> tag inside
   if (match && hasLink) {
     // Includes [] and an a tag inside
     const text = match[1];
     const link = document.createElement("a");
-    link.textContent = text;
+    link.innerHTML = text;
     link.setAttribute("href", "/free-estimate"); // Adjust the href value as needed
     link.setAttribute("class", "button button--primary");
     link.setAttribute("title", capitalizeWords(text)); // Use the capitalizeWords helper for the title
@@ -77,7 +92,7 @@ Array.from(tempDiv.querySelectorAll("p")).forEach((p) => {
     // Text contains [ ] but no <a> tag inside
     const text = match[1];
     const commentTag = document.createElement("label");
-    commentTag.textContent = text;
+    commentTag.innerHTML = text;
     p.replaceWith(commentTag);
   } 
 });
@@ -104,7 +119,6 @@ Array.from(tempDiv.querySelectorAll("p")).forEach((p) => {
       nextElement = nextElement.nextElementSibling;
     }
   });
-  
 
   // Use DOMPurify to sanitize the cleaned HTML
   return DOMPurify.sanitize(tempDiv.innerHTML, {
@@ -112,3 +126,5 @@ Array.from(tempDiv.querySelectorAll("p")).forEach((p) => {
     ALLOWED_ATTR: ["href", "title", "class"],
   });
 };
+
+

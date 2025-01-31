@@ -1,6 +1,7 @@
 export const prettifyHTML = (html) => {
   const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = html.trim();
+  console.log(tempDiv);
+  tempDiv.textContent = html.trim();
   
   const wrapAccordions = (node) => {
   const elements = Array.from(node.children);
@@ -18,7 +19,7 @@ export const prettifyHTML = (html) => {
   
   const controlDiv = document.createElement("div");
   controlDiv.setAttribute("data-control", "");
-  controlDiv.innerHTML = `<img data-src="/portals/0/angles-right-white-solid.svg" alt="Angles Right Icon" width="17" height="18" class="lazyload"/> ${el.textContent.trim()}`;
+  controlDiv.textContent = `<img data-src="/portals/0/angles-right-white-solid.svg" alt="Angles Right Icon" width="17" height="18" class="lazyload"/> ${el.textContent.trim()}`;
   
   currentAccordion.appendChild(controlDiv);
   } else if (el.tagName === "P") {
@@ -158,6 +159,8 @@ export const prettifyHTML = (html) => {
   addLabelComment(tempDiv);
   adjustATagSpacing(tempDiv);
 
+
+
   const prettify = (node, level = 0) => {
     // FOR INDENTING
   const indent = "  ".repeat(level);
@@ -199,7 +202,7 @@ export const prettifyHTML = (html) => {
   .replace(/\s+<\/(\w+)>/g, "</$1>")
   .replace(/>\s+</g, "><")
   };
-  
+
   return prettify(tempDiv).trim();
   };
   
