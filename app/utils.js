@@ -6,12 +6,6 @@ export const cleanHTML = (html) => {
   tempDiv.innerHTML = html;
 
   // Remove unnecessary span tags
-  // Array.from(tempDiv.querySelectorAll("span")).forEach((span) => {
-  //   if (!span.attributes.length) {
-  //     span.replaceWith(span.innerHTML);
-  //   }
-  // });
-
   Array.from(tempDiv.querySelectorAll("span")).forEach((span) => {
       const inlineStyle = span.getAttribute("style");
 

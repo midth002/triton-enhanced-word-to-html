@@ -1,7 +1,6 @@
 export const prettifyHTML = (html) => {
   const tempDiv = document.createElement("div");
-  console.log(tempDiv);
-  tempDiv.textContent = html.trim();
+  tempDiv.innerHTML = html.trim();
   
   const wrapAccordions = (node) => {
   const elements = Array.from(node.children);
@@ -150,13 +149,39 @@ export const prettifyHTML = (html) => {
     }
   };
 
-
+  const mergeAdjacentLists = (node) => {
+    const children = Array.from(node.children);
+    let mainUl = null; // Track the main <ul> for merging
+  
+    children.forEach((el) => {
+      if (el.tagName === "UL") {
+        if (!mainUl) {
+          // Start a new UL section
+          mainUl = el;
+        } else {
+          // Move <li> elements into the first UL
+          while (el.firstChild) {
+            mainUl.appendChild(el.firstChild);
+          }
+          el.remove(); // Remove the now-empty UL
+        }
+      } else {
+        // Reset when hitting a non-UL element like <p> or <h2>
+        mainUl = null;
+      }
+    });
+  };
+  
+  
+  
   
   removeEmptyTags(tempDiv);
+  
   wrapAccordions(tempDiv);
   groupAccordions(tempDiv);
   addTitleComment(tempDiv);
   addLabelComment(tempDiv);
+  mergeAdjacentLists(tempDiv);
   adjustATagSpacing(tempDiv);
 
 
