@@ -10,7 +10,7 @@ export const cleanHTML = (html) => {
       const inlineStyle = span.getAttribute("style");
 
 
-    if (inlineStyle && inlineStyle.includes("font-weight: 700")) {
+    if (inlineStyle && inlineStyle.includes("font-weight:700")) {
       // Convert the span to a <strong> tag
       const strongTag = document.createElement("strong");
       strongTag.innerHTML = span.innerHTML;
