@@ -7,19 +7,24 @@ export const cleanHTML = (html) => {
 
   // Remove unnecessary span tags
   Array.from(tempDiv.querySelectorAll("span")).forEach((span) => {
-      const inlineStyle = span.getAttribute("style");
-
-
-    if (inlineStyle && inlineStyle.includes("font-weight: 700")) {
-      // Convert the span to a <strong> tag
-      const strongTag = document.createElement("strong");
-      strongTag.innerHTML = span.innerHTML;
-      span.replaceWith(strongTag);
-    } else if (!span.attributes.length) {
+    if (span.hasAttribute("style")) { 
+      const inlineStyle = span.style; 
+      const fontWeight = inlineStyle.getPropertyValue("font-weight");
+  
+      if (fontWeight === "700" || fontWeight === "bold") {
+        // Convert <span> to <strong> if it is bold
+        const strongTag = document.createElement("strong");
+        strongTag.innerHTML = span.innerHTML;
+        span.replaceWith(strongTag);
+      }
+    }
+  
+    if (!span.attributes.length) {
       // Remove span if it has no attributes (was likely used for styling)
       span.replaceWith(span.innerHTML);
     }
   });
+  
   
 
   // Remove aria-level attributes
